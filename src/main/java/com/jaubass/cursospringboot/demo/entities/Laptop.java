@@ -1,4 +1,4 @@
-package com.jaubass.cursospringboot.demo;
+package com.jaubass.cursospringboot.demo.entities;
 
 import jakarta.persistence.*;
 

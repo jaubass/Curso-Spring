@@ -1,5 +1,6 @@
-package com.jaubass.cursospringboot.demo;
+package com.jaubass.cursospringboot.demo.repositories;
 
+import com.jaubass.cursospringboot.demo.entities.Laptop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
