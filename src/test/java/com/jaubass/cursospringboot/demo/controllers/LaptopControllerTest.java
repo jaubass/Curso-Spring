@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -56,10 +55,36 @@ class LaptopControllerTest {
 
     @Test
     void findOneById() {
+        ResponseEntity<Laptop> response =
+                testRestTemplate.getForEntity("/api/laptop/1", Laptop.class);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
     }
 
     @Test
     void create() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+
+        String json = """
+                {
+                    "price": 1899.0,
+                    "release": "2021-06-14",
+                    "available": true,
+                    "model": "Laptop creade desde LaptopControllerTest"
+                }
+                """;
+
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
+
+        ResponseEntity<Laptop> response = testRestTemplate.exchange("/api/laptops", HttpMethod.POST, request, Laptop.class);
+
+        Laptop result = response.getBody();
+        assertEquals(1L, result.getId());
+        assertEquals("Laptop creade desde LaptopControllerTest", result.getModel());
     }
 
     @Test
